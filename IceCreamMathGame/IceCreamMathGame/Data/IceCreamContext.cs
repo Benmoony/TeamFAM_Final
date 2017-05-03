@@ -11,7 +11,6 @@ namespace IceCreamMathGame.Data
     {
         public IceCreamContext(DbContextOptions<IceCreamContext> options) : base(options)
         {
-
         }
 
         public DbSet<Instructor> Instructors { get; set; }
