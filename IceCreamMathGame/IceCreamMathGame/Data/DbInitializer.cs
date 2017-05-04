@@ -10,6 +10,8 @@ namespace IceCreamMathGame.Data
     {
         public static void Initialize(IceCreamContext context)
         {
+            context.Database.EnsureCreated();
+
             if (context.Instructors.Any())
             {
                 return;

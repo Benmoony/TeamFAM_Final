@@ -1,9 +1,8 @@
 @model IceCreamMathGame.Models.InstructorM
 
 @{
-    ViewData["Title"] = "InstructorLogin";
+    ViewData["Title"] = "InstructorRegister";
 }
-
 
 <style>
 	.button {
@@ -45,14 +44,26 @@
 	}
 </style>
 
-<form asp-action="InstructorLogin">
+<form asp-action="InstructorRegister">
     <div class="form-horizontal">
         <hr />
 		<div class="well">
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 			<div class="form-group">
 				<div class="col-md-12">
-					<h2 class="test">Instructor Login</h2>
+					<h2 class="test">Instructor Register</h2>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-12">
+					<input asp-for="LastName" placeholder="Enter Last Name" class="form-control center text-center" />
+					<span asp-validation-for="LastName" class="text-danger span"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-12">
+					<input asp-for="FirstName" placeholder="Enter First Name" class="form-control center text-center" />
+					<span asp-validation-for="FirstName" class="text-danger span"></span>
 				</div>
 			</div>
 			<div class="form-group">
@@ -67,18 +78,24 @@
 					<span asp-validation-for="Password" class="text-danger span"></span>
 				</div>
 			</div>
-			<div class="form-group text-center">
+			<div class="form-group">
 				<div class="col-md-12">
-					<input type="submit" value="Login" class="btn btn-default button" />
+					<input asp-for="Email" placeholder="Enter Email Address" class="form-control center text-center" />
+					<span asp-validation-for="Email" class="text-danger span"></span>
 				</div>
 			</div>
 			<div class="form-group text-center">
-				<div class="col-md-12">
-					<a class="btn btn-default button2" asp-action="InstructorRegister">Create Account</a>
-				</div>
+			<div class="col-md-12">
+				<input type="submit" value="Create" class="btn btn-default button" />
+			</div>
+		</div>
+		<div class="form-group text-center">
+			<div class="col-md-12">
+				<a class="btn btn-default button2" asp-action="InstructorLogin">Back To Login</a>
 			</div>
 		</div>
     </div>
+		</div>
 </form>
 
 <div>
