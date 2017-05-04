@@ -54,7 +54,7 @@ namespace IceCreamMathGame.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,LastName,FirstName,UserName,Password,Email")] Instructor instructor)
+        public async Task<IActionResult> Create([Bind("ID,LastName,FirstName,UserName,Password,Email")] InstructorM instructor)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace IceCreamMathGame.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,LastName,FirstName,UserName,Password,Email")] Instructor instructor)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,LastName,FirstName,UserName,Password,Email")] InstructorM instructor)
         {
             if (id != instructor.ID)
             {

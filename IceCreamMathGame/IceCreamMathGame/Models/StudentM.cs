@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace IceCreamMathGame.Models
 {
-    public class Student
+    public class StudentM
     {
         public int StudentID { get; set; }
         public string FirstName { get; set; }
