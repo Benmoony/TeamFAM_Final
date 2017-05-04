@@ -10,9 +10,12 @@ namespace IceCreamMathGame.Data
     {
         public static void Initialize(IceCreamContext context)
         {
+            //Look for any students
+            context.Database.EnsureCreated();
+
             if (context.Instructors.Any())
             {
-                return;
+                return; // DB has been seeded
             }
 
             var instructors = new Instructor[]
