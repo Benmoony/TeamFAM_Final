@@ -10,35 +10,34 @@ namespace IceCreamMathGame.Data
     {
         public static void Initialize(IceCreamContext context)
         {
-            //Look for any students
             context.Database.EnsureCreated();
 
             if (context.Instructors.Any())
             {
-                return; // DB has been seeded
+                return;
             }
 
-            var instructors = new Instructor[]
+            var instructors = new InstructorM[]
             {
-                new Instructor{ LastName="Meyers",FirstName="Bob",UserName="BbobM",Password="pass", Email="BobMM@gmail.com"},
-                new Instructor{ LastName="Meyers",FirstName="Sally",UserName="SallyM",Password="asdf", Email="SallyM@aol.com"}
+                new InstructorM{ LastName="Meyers",FirstName="Bob",UserName="BbobM",Password="pass", Email="BobMM@gmail.com"},
+                new InstructorM{ LastName="Meyers",FirstName="Sally",UserName="SallyM",Password="asdf", Email="SallyM@aol.com"}
             };
-            foreach (Instructor i in instructors)
+            foreach (InstructorM i in instructors)
             {
                 context.Instructors.Add(i);
             }
             context.SaveChanges();
 
-            var students = new Student[]
+            var students = new StudentM[]
             {
-                new Student{ LastName="Sue",FirstName="Mary", InstructorID=1},
-                new Student{ LastName="Miller",FirstName="Tim", InstructorID=1},
-                new Student{ LastName="Shriver",FirstName="Kathy", InstructorID=1},
-                new Student{ LastName="Flynn",FirstName="Michael", InstructorID=2},
-                new Student{ LastName="Undead",FirstName="Chosen", InstructorID=2},
-                new Student{ LastName="Punisher",FirstName="The", InstructorID=2}
+                new StudentM{ LastName="Sue",FirstName="Mary", InstructorID=1},
+                new StudentM{ LastName="Miller",FirstName="Tim", InstructorID=1},
+                new StudentM{ LastName="Shriver",FirstName="Kathy", InstructorID=1},
+                new StudentM{ LastName="Flynn",FirstName="Michael", InstructorID=2},
+                new StudentM{ LastName="Undead",FirstName="Chosen", InstructorID=2},
+                new StudentM{ LastName="Punisher",FirstName="The", InstructorID=2}
             };
-            foreach (Student s in students)
+            foreach (StudentM s in students)
             {
                 context.Students.Add(s);
             }
