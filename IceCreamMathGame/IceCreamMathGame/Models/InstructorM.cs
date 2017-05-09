@@ -32,8 +32,5 @@ namespace IceCreamMathGame.Models
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         [Display(Name = "Email Address")]
         public string Email { get; set; }
-
-
-        public ICollection<StudentM> Students { get; set; }
     }
 }

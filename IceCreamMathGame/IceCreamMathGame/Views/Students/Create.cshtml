@@ -1,4 +1,4 @@
-@model IceCreamMathGame.Models.Student
+@model IceCreamMathGame.Models.StudentM
 
 @{
     ViewData["Title"] = "Create";
@@ -23,12 +23,6 @@
             <div class="col-md-10">
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="InstructorID" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <select asp-for="InstructorID" class ="form-control" asp-items="ViewBag.InstructorID"></select>
             </div>
         </div>
         <div class="form-group">
