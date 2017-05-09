@@ -3,31 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TextController : MonoBehaviour {
+public class TextController : MonoBehaviour
+{
 
     public Text text;
-    enum States { question_0, question_1, question_2, question_3, question_4, question_5, question_6, question_7 }
+    enum States { question_0, question_1, question_2, question_3, question_4, question_5, question_6, question_7, sub_1, sub_2 }
     int guessNum;
     int scoopNum = 0;
     int ranCherry;
-    int ranBanana;
+    int Banana;
     public string setKey;
     public KeyCode kc;
 
     private States atQuest;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         atQuest = States.question_0;
         ranCherry = Random.Range(1, 6);
-        ranBanana = Random.Range(1, 4);
         guessNum = 0;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         print(atQuest);
 
-        if(atQuest == States.question_0)
+        if (atQuest == States.question_0)
         {
             state_quest0();
         }
@@ -59,6 +61,14 @@ public class TextController : MonoBehaviour {
         {
             state_quest7();
         }
+        else if (atQuest == States.sub_1)
+        {
+            sub_question1();
+        }
+        else if (atQuest == States.sub_2)
+        {
+            sub_question2();
+        }
     }
 
     void state_quest0()
@@ -75,40 +85,31 @@ public class TextController : MonoBehaviour {
     void state_quest1()
     {
         print("guessNum = " + guessNum);
-        print("ranBanana = " + ranBanana);
-        text.text = "How many bananas are in the tree?\n\n" +
-                        "Answer by pressing 1, 2, or 3";
+        text.text = "How many bananas do you want to pick?\n\n" + "Answer by pressing 1, 2, or 3";
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
+            Banana = 1;
             guessNum = guessNum + 1;
-            if(ranBanana == 1)
-            {
-                atQuest = States.question_2;
-            }
+            atQuest = States.sub_1;
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
+            Banana = 2;
             guessNum = guessNum + 1;
-            if (ranBanana == 2)
-            {
-                atQuest = States.question_2;
-            }
-
+            atQuest = States.sub_1;
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
+            Banana = 3;
             guessNum = guessNum + 1;
-            if (ranBanana == 3)
-            {
-                atQuest = States.question_2;
-            }
+            atQuest = States.sub_1;
         }
     }
     void state_quest2()
     {
         print("guessNum = " + guessNum);
-        text.text = "Well done, there were "+ ranBanana +" bananas\n\n" + 
+        text.text = "You picked " + Banana + " bananas\n\n" +
                     "How many scoops do you want to scoop?\n\n" +
                     "Answer by pressing 1, 2, or 3";
 
@@ -133,7 +134,7 @@ public class TextController : MonoBehaviour {
     }
     void state_quest3()
     {
-        text.text = "You scooped up " + scoopNum + " scoops of Ice cream\n\n" + "Pick "+ ranCherry +" cherries\n\n" + "Press the number to pick that many.";
+        text.text = "You scooped up " + scoopNum + " scoops of Ice cream\n\n" + "Pick " + ranCherry + " cherries\n\n" + "Press the number to pick that many.";
         print("guessNum = " + guessNum);
         setKey = "Alpha" + ranCherry;
         kc = (KeyCode)System.Enum.Parse(typeof(KeyCode), setKey);
@@ -141,7 +142,7 @@ public class TextController : MonoBehaviour {
         if (Input.GetKeyDown(kc))
         {
             guessNum = guessNum + 1;
-            atQuest = States.question_4;
+            atQuest = States.sub_2;
         }
         else if (Input.anyKeyDown)
         {
@@ -150,7 +151,7 @@ public class TextController : MonoBehaviour {
     }
     void state_quest4()
     {
-        text.text = "Place " + scoopNum + " Icecream scoops into the bowl.";
+        text.text = "You have "+ ranCherry + " Cherries\n\n" + "Place " + scoopNum + " Icecream scoops into the bowl.";
         setKey = "Alpha" + scoopNum;
 
         kc = (KeyCode)System.Enum.Parse(typeof(KeyCode), setKey);
@@ -167,8 +168,8 @@ public class TextController : MonoBehaviour {
     }
     void state_quest5()
     {
-        text.text = "Add " + ranBanana + " Bananas to the Sundae";
-        setKey = "Alpha" + ranBanana;
+        text.text = "Add " + Banana + " Bananas to the Sundae";
+        setKey = "Alpha" + Banana;
         kc = (KeyCode)System.Enum.Parse(typeof(KeyCode), setKey);
         if (Input.GetKeyDown(kc))
         {
@@ -194,9 +195,50 @@ public class TextController : MonoBehaviour {
             guessNum = guessNum + 1;
         }
     }
+    void sub_question2()
+    {
+        text.text = "You picked "+ ranCherry +" Cherries\n\n" + " How many cherries are left";
+
+        int remainCherry = 7 - ranCherry;
+        setKey = "Alpha" + remainCherry;
+        kc = (KeyCode)System.Enum.Parse(typeof(KeyCode), setKey);
+
+        if (Input.GetKeyDown(kc))
+        {
+            guessNum = guessNum + 1;
+            scoopNum = 1;
+            atQuest = States.question_4;
+        }
+        else if (Input.anyKeyDown)
+        {
+            guessNum++;
+        }
+
+
+
+    }
+    void sub_question1()
+    {
+        text.text = "You picked " + Banana + " bananas\n\n" + "How many bananas are left";
+
+        int remainBanana = 5 - Banana;
+        setKey = "Alpha" + remainBanana;
+        kc = (KeyCode)System.Enum.Parse(typeof(KeyCode), setKey);
+
+        if (Input.GetKeyDown(kc))
+        {
+            guessNum = guessNum + 1;
+            scoopNum = 1;
+            atQuest = States.question_2;
+        }
+        else if (Input.anyKeyDown)
+        {
+            guessNum++;
+        }
+    }
     void state_quest7()
     {
-        text.text = "Enjoy your Sunday!\n\n" + 
+        text.text = "Enjoy your Sunday!\n\n" +
                     "To play again, press P";
         if (Input.GetKeyDown(KeyCode.P))
         {

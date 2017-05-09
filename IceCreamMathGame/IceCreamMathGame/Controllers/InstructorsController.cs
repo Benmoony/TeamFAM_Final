@@ -52,12 +52,25 @@ namespace IceCreamMathGame.Controllers
         [HttpPost]
         public IActionResult InstructorLogin(InstructorM i)
         {
-            return View();
+            bool find = _context.Instructors.ToList().Any(m => m.UserName == i.UserName && m.Password == i.Password);
+            if (find)
+            {
+                //ViewBag.error = "Name Already exists";
+                return RedirectToAction("Contact", "Home");
+            }
+            else
+            {
+                ViewBag.error = "User Name Or Password is wrong or does not exist!";
+                return View("InstructorLogin");
+            }
+            //return View();
         }
 
         // GET: Instructors/Create
         public IActionResult InstructorRegister()
         {
+            InstructorM instructor = new InstructorM();
+            
             return View();
         }
 
@@ -74,14 +87,27 @@ namespace IceCreamMathGame.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> InstructorRegister([Bind("ID,LastName,FirstName,UserName,Password,Email")] InstructorM instructor)
         {
-            if (ModelState.IsValid)
+            bool find = _context.Instructors.ToList().Any(m => m.UserName == instructor.UserName);
+            if (find)
             {
+                ViewBag.Error = "User Name already exists, Please choose a different User Name";
+                instructor.UserName = "";
+                return View();
+            }
+            else if (ModelState.IsValid)
+            {
+                ViewBag.success = instructor.FirstName + " Your Account Has Been Succesfully Created! Go Back To Login";
                 _context.Add(instructor);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                ModelState.Clear();
+                return View("InstructorRegister");
             }
+            
+            
             return View(instructor);
         }
+
+        
 
         // GET: Instructors/Edit/5
         public async Task<IActionResult> Edit(int? id)
