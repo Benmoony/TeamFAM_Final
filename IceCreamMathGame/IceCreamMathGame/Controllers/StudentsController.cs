@@ -54,8 +54,10 @@ namespace IceCreamMathGame.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StudentID,FirstName,LastName,InstructorID")] Student student)
+        public async Task<IActionResult> Create([Bind("StudentID,FirstName,LastName,InstructorID")] StudentM student)
         {
+            //TODO: Need ref. to Instructor TD from Login Instructor//
+
             if (ModelState.IsValid)
             {
                 _context.Add(student);
@@ -86,7 +88,7 @@ namespace IceCreamMathGame.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StudentID,FirstName,LastName,InstructorID")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("StudentID,FirstName,LastName,InstructorID")] StudentM student)
         {
             if (id != student.StudentID)
             {
