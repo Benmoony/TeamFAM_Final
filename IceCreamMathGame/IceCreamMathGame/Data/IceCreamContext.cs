@@ -13,14 +13,14 @@ namespace IceCreamMathGame.Data
         {
         }
 
-        public DbSet<Instructor> Instructors { get; set; }
-        public DbSet<Student> Students { get; set; }
+        public DbSet<InstructorM> Instructors { get; set; }
+        public DbSet<StudentM> Students { get; set; }
         public DbSet<Score> Scores { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Instructor>().ToTable("Instructor");
-            modelBuilder.Entity<Student>().ToTable("Student");
+            modelBuilder.Entity<InstructorM>().ToTable("Instructor");
+            modelBuilder.Entity<StudentM>().ToTable("Student");
             modelBuilder.Entity<Score>().ToTable("Score");
         }
     }
