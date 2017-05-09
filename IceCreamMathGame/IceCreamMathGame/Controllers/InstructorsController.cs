@@ -87,7 +87,7 @@ namespace IceCreamMathGame.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> InstructorRegister([Bind("ID,LastName,FirstName,UserName,Password,Email")] InstructorM instructor)
         {
-            bool find = _context.Instructors.ToList().Any(m => m.UserName == instructor.UserName && m.Password == instructor.Password);
+            bool find = _context.Instructors.ToList().Any(m => m.UserName == instructor.UserName);
             if (find)
             {
                 ViewBag.Error = "User Name already exists, Please choose a different User Name";
