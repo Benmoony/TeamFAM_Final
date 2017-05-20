@@ -4,14 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using IceCreamMathGame.Data;
 using IceCreamMathGame.Models;
 
 namespace IceCreamMathGame.Controllers
 {
     public class InstructorsController : Controller
-    {
+    { 
+        //Tracks the Current Logged in Instructor
+        //const string SessionLoggedID = "_ID";
+
         private readonly IceCreamContext _context;
 
         public InstructorsController(IceCreamContext context)
@@ -20,12 +25,19 @@ namespace IceCreamMathGame.Controllers
         }
 
         // GET: Instructors
+        // TODO: make this inaccesible to instuctors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Instructors.ToListAsync());
+            if ((int)TempData["PassID"] != 8)
+            {
+                ViewBag.error = "You are not authorized to view this information";
+                return View("InstructorIndex");
+            }
+                return View(await _context.Instructors.ToListAsync());
         }
 
         // GET: Instructors/Details/5
+        // Unessessary: needs to be removed
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,7 +57,7 @@ namespace IceCreamMathGame.Controllers
 
         [HttpGet]
         public IActionResult InstructorLogin()
-        {
+        {      
             return View();
         }
 
@@ -56,6 +68,11 @@ namespace IceCreamMathGame.Controllers
             if (find)
             {
                 //ViewBag.error = "Name Already exists";
+
+                //TODO: Update Return Action to go to the Student Controller
+                var instructor = _context.Instructors.ToList().SingleOrDefault(m => m.UserName == i.UserName && m.Password == i.Password);
+                TempData["PassID"] = instructor.ID;
+                
                 return RedirectToAction("InstructorIndex");
             }
             else
@@ -66,17 +83,38 @@ namespace IceCreamMathGame.Controllers
             //return View();
         }
 
+        //Method to redirect the instructor controller to the student
+        public IActionResult ToStudent()
+        {
+
+            if ((int)TempData["PassID"] == 0)
+            {
+                ViewBag.error("Please Log In");
+                return View();
+            }
+            else {
+                return RedirectToAction("StudentAccess", "Students");
+            }
+            
+        }
+
         // GET: Instructors/Create
         public IActionResult InstructorRegister()
         {
             InstructorM instructor = new InstructorM();
-            
             return View();
         }
 
+        // GET: Instructors/Preferences
+        //gets the instructor preferences that will give them access to edit their account
         [HttpGet]
         public IActionResult Preferences()
         {
+            if((int)TempData["PassID"] == 0)
+            {
+                ViewBag.error = "Please Login to your Account";
+                return View();
+            }
             return View();
         }
 
@@ -102,15 +140,11 @@ namespace IceCreamMathGame.Controllers
                 ModelState.Clear();
                 return View("InstructorRegister");
             }
-            
-            
             return View(instructor);
         }
 
-        
-
         // GET: Instructors/Edit/5
-
+        //TODO: Make this only accessible by Current logged in Instructor and only able to edit from current Instructors ID
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -129,6 +163,7 @@ namespace IceCreamMathGame.Controllers
         // POST: Instructors/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //  TODO: Make this only accessible by Current logged in Instructor and only able to edit from current Instructors ID
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,LastName,FirstName,UserName,Password,Email")] InstructorM instructor)
@@ -162,6 +197,7 @@ namespace IceCreamMathGame.Controllers
         }
 
         // GET: Instructors/Delete/5
+        //TODO: Remove this Functionality from the website. 
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -179,7 +215,10 @@ namespace IceCreamMathGame.Controllers
             return View(instructor);
         }
 
+        
+
         // POST: Instructors/Delete/5
+        //TODO: Remove this Functionality from the website. 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -198,7 +237,17 @@ namespace IceCreamMathGame.Controllers
         [HttpGet, ActionName("InstructorIndex")]
         public ActionResult InstructorIndex()
         {
+            var instructor = _context.Instructors.ToList().SingleOrDefault(m => m.ID == (int)TempData["PassId"]);
+
+            ViewBag.success = "Welcome " + instructor.FirstName + " " + instructor.LastName + "!";
             return View();
+        }
+
+        public ActionResult Logout()
+        {
+            TempData["PassID"] = 0;
+            ViewBag.success = "You have been logged off";
+            return View("InstructorLogin");
         }
     }
 }
