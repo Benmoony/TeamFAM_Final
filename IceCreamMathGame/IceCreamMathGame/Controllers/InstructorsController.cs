@@ -69,7 +69,7 @@ namespace IceCreamMathGame.Controllers
                 LoggedID = instructor.ID;
                 HttpContext.Session.SetInt32("SessionLoggedID", instructor.ID);
 
-                return View("InstructorLogin");
+                return RedirectToAction("Index");
             }
             else
             {
