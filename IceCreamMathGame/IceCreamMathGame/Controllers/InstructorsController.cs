@@ -56,7 +56,7 @@ namespace IceCreamMathGame.Controllers
             if (find)
             {
                 //ViewBag.error = "Name Already exists";
-                return RedirectToAction("Index");
+                return RedirectToAction("InstructorIndex");
             }
             else
             {
@@ -193,6 +193,12 @@ namespace IceCreamMathGame.Controllers
         private bool InstructorExists(int id)
         {
             return _context.Instructors.Any(e => e.ID == id);
+        }
+
+        [HttpGet, ActionName("InstructorIndex")]
+        public ActionResult InstructorIndex()
+        {
+            return View();
         }
     }
 }
