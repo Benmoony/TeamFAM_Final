@@ -4,32 +4,75 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
+<style>
+	.button {
+		width: 400px;
+	}
+
+	.button2 {
+		width: 280px;
+	}
+
+	.center {
+		margin: 0 auto;
+	}
+
+	.span {
+		display: block;
+		text-align: center;
+		padding-top: 10px;
+	}
+
+	.title {
+		border-top: solid 1px lightgrey;
+		border-right: solid 1px lightgrey;
+		border-left: solid 1px lightgrey;
+	}
+
+	.test {
+		text-align: center;
+	}
+
+	@@media only screen and (max-width: 349px) {
+		.button {
+			width: 100%;
+		}
+
+		.button2 {
+			width: 100%;
+		}
+	}
+</style>
 
 <form asp-action="Create">
     <div class="form-horizontal">
-        <h4>Student</h4>
+        
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="FirstName" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="LastName" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
+		<div class="well">
+			<div class="form-group">
+				<div class="col-md-12">
+					<h2 class="test">Student Registration</h2>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-12">
+					<input asp-for="FirstName" placeholder="Enter Name" class="form-control center text-center" />
+					<span asp-validation-for="FirstName" class="text-danger span"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-12">
+					<input asp-for="LastName" placeholder="Enter Last Name" class="form-control center text-center" />
+					<span asp-validation-for="LastName" class="text-danger span"></span>
+				</div>
+			</div>
+			<div class="form-group text-center">
+				<div class="col-md-12">
+					<input type="submit" value="Create" class="btn btn-default button" />
+				</div>
+			</div>
+		</div>
     </div>
 </form>
 
