@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using IceCreamMathGame.Data;
 using IceCreamMathGame.Models;
 
@@ -12,6 +13,10 @@ namespace IceCreamMathGame.Controllers
 {
     public class InstructorsController : Controller
     {
+
+        //Tracks the Current Logged in Instructor
+        private int LoggedID;
+
         private readonly IceCreamContext _context;
 
         public InstructorsController(IceCreamContext context)
@@ -27,6 +32,7 @@ namespace IceCreamMathGame.Controllers
         }
 
         // GET: Instructors/Details/5
+        // Unessessary: needs to be removed
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -58,6 +64,9 @@ namespace IceCreamMathGame.Controllers
             {
                 //ViewBag.error = "Name Already exists";
                 //TODO: Update Return Action to go to the Student Controller
+                var instructor = _context.Instructors.ToList().SingleOrDefault(m => m.UserName == i.UserName && m.Password == i.Password);
+                LoggedID = instructor.ID;
+
                 return RedirectToAction("Contact", "Home");
             }
             else
@@ -72,7 +81,6 @@ namespace IceCreamMathGame.Controllers
         public IActionResult InstructorRegister()
         {
             InstructorM instructor = new InstructorM();
-            
             return View();
         }
 
@@ -81,6 +89,11 @@ namespace IceCreamMathGame.Controllers
         [HttpGet]
         public IActionResult Preferences()
         {
+            if(LoggedID == 0)
+            {
+                ViewBag.error = "Please Login to your Account";
+                return View();
+            }
             return View();
         }
 
@@ -106,8 +119,6 @@ namespace IceCreamMathGame.Controllers
                 ModelState.Clear();
                 return View("InstructorRegister");
             }
-            
-            
             return View(instructor);
         }
 
