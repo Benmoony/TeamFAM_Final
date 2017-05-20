@@ -56,7 +56,7 @@ namespace IceCreamMathGame.Controllers
             if (find)
             {
                 //ViewBag.error = "Name Already exists";
-                return RedirectToAction("Contact", "Home");
+                return RedirectToAction("Index");
             }
             else
             {
@@ -110,6 +110,7 @@ namespace IceCreamMathGame.Controllers
         
 
         // GET: Instructors/Edit/5
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
