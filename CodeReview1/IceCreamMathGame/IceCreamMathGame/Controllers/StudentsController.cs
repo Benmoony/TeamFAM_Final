@@ -12,8 +12,6 @@ namespace IceCreamMathGame.Controllers
 {
     public class StudentsController : Controller
     {
-        private int LoggedInstructor;
-
         private readonly IceCreamContext _context;
 
         public StudentsController(IceCreamContext context)
@@ -48,15 +46,7 @@ namespace IceCreamMathGame.Controllers
         // GET: Students/Create
         public IActionResult Create()
         {
-            
             return View();
-        }
-        
-
-        public IActionResult StudentAccess()
-        {
-            LoggedInstructor = (int)TempData["PassId"];
-            return RedirectToAction("Create");
         }
 
         // POST: Students/Create
@@ -70,7 +60,6 @@ namespace IceCreamMathGame.Controllers
 
             if (ModelState.IsValid)
             {
-                student.InstructorID = (int)TempData["PassID"];
                 _context.Add(student);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");

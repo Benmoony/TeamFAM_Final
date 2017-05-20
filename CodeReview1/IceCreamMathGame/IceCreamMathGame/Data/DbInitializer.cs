@@ -8,8 +8,6 @@ namespace IceCreamMathGame.Data
 {
     public class DbInitializer
     {
-
-        //Code Initilizes the database, ensuring it is created and populating the database for testing
         public static void Initialize(IceCreamContext context)
         {
             context.Database.EnsureCreated();
