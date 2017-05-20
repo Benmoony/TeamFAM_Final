@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using IceCreamMathGame.Data;
@@ -13,9 +14,9 @@ namespace IceCreamMathGame.Controllers
 {
     public class InstructorsController : Controller
     {
-
-        //Tracks the Current Logged in Instructor
         private int LoggedID;
+        //Tracks the Current Logged in Instructor
+        const string SessionLoggedID = "_ID";
 
         private readonly IceCreamContext _context;
 
@@ -52,7 +53,7 @@ namespace IceCreamMathGame.Controllers
 
         [HttpGet]
         public IActionResult InstructorLogin()
-        {
+        {      
             return View();
         }
 
@@ -66,8 +67,9 @@ namespace IceCreamMathGame.Controllers
                 //TODO: Update Return Action to go to the Student Controller
                 var instructor = _context.Instructors.ToList().SingleOrDefault(m => m.UserName == i.UserName && m.Password == i.Password);
                 LoggedID = instructor.ID;
+                HttpContext.Session.SetInt32("SessionLoggedID", instructor.ID);
 
-                return RedirectToAction("Contact", "Home");
+                return View("InstructorLogin");
             }
             else
             {
@@ -75,6 +77,19 @@ namespace IceCreamMathGame.Controllers
                 return View("InstructorLogin");
             }
             //return View();
+        }
+
+        //Method to redirect the instructor controller to the student
+        public IActionResult ToStudent()
+        {
+           
+            if (LoggedID == 0)
+            {
+                ViewBag.error("Please Log In");
+                return View();
+            }
+            TempData["PassId"] = HttpContext.Session.GetInt32("SessionLoggedID");
+            return RedirectToAction("Create", "StudentsController");
         }
 
         // GET: Instructors/Create
@@ -121,8 +136,6 @@ namespace IceCreamMathGame.Controllers
             }
             return View(instructor);
         }
-
-        
 
         // GET: Instructors/Edit/5
         //TODO: Make this only accessible by Current logged in Instructor and only able to edit from current Instructors ID
@@ -195,6 +208,8 @@ namespace IceCreamMathGame.Controllers
 
             return View(instructor);
         }
+
+        
 
         // POST: Instructors/Delete/5
         //TODO: Remove this Functionality from the website. 

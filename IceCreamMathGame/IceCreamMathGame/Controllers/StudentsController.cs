@@ -12,6 +12,8 @@ namespace IceCreamMathGame.Controllers
 {
     public class StudentsController : Controller
     {
+        private int LoggedInstructor;
+
         private readonly IceCreamContext _context;
 
         public StudentsController(IceCreamContext context)
@@ -46,6 +48,7 @@ namespace IceCreamMathGame.Controllers
         // GET: Students/Create
         public IActionResult Create()
         {
+            LoggedInstructor = (int)TempData["PassId"];
             return View();
         }
 
