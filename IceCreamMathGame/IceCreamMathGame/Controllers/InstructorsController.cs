@@ -10,12 +10,14 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using IceCreamMathGame.Data;
 using IceCreamMathGame.Models;
 
+
 namespace IceCreamMathGame.Controllers
 {
+    
     public class InstructorsController : Controller
-    { 
+    {
         //Tracks the Current Logged in Instructor
-        //const string SessionLoggedID = "_ID";
+        const string SessionLoggedID = "_ID"; 
 
         private readonly IceCreamContext _context;
 
@@ -28,7 +30,8 @@ namespace IceCreamMathGame.Controllers
         // TODO: make this inaccesible to instuctors
         public async Task<IActionResult> Index()
         {
-            if ((int)TempData["PassID"] != 8)
+            var PassID = HttpContext.Session.GetInt32(SessionLoggedID);
+            if (PassID != 8)
             {
                 ViewBag.error = "You are not authorized to view this information";
                 return View("InstructorIndex");
@@ -71,8 +74,7 @@ namespace IceCreamMathGame.Controllers
 
                 //TODO: Update Return Action to go to the Student Controller
                 var instructor = _context.Instructors.ToList().SingleOrDefault(m => m.UserName == i.UserName && m.Password == i.Password);
-                TempData["PassID"] = instructor.ID;
-                
+                HttpContext.Session.SetInt32(SessionLoggedID, instructor.ID);
                 return RedirectToAction("InstructorIndex");
             }
             else
@@ -86,8 +88,8 @@ namespace IceCreamMathGame.Controllers
         //Method to redirect the instructor controller to the student
         public IActionResult ToStudent()
         {
-
-            if ((int)TempData["PassID"] == 0)
+            var PassID = HttpContext.Session.GetInt32(SessionLoggedID);
+            if (PassID == 0)
             {
                 ViewBag.error("Please Log In");
                 return View();
@@ -110,7 +112,9 @@ namespace IceCreamMathGame.Controllers
         [HttpGet]
         public IActionResult Preferences()
         {
-            if((int)TempData["PassID"] == 0)
+
+            var PassID = HttpContext.Session.GetInt32(SessionLoggedID);
+            if (PassID == 0)
             {
                 ViewBag.error = "Please Login to your Account";
                 return View();
@@ -237,7 +241,8 @@ namespace IceCreamMathGame.Controllers
         [HttpGet, ActionName("InstructorIndex")]
         public ActionResult InstructorIndex()
         {
-            var instructor = _context.Instructors.ToList().SingleOrDefault(m => m.ID == (int)TempData["PassId"]);
+            var PassID = (int)HttpContext.Session.GetInt32(SessionLoggedID);
+            var instructor = _context.Instructors.ToList().SingleOrDefault(m => m.ID == PassID);
 
             ViewBag.success = "Welcome " + instructor.FirstName + " " + instructor.LastName + "!";
             return View();
