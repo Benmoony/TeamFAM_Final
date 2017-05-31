@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using IceCreamMathGame.Data;
 using IceCreamMathGame.Models;
+using System.Diagnostics;
 
 namespace IceCreamMathGame.Controllers
 {
@@ -72,8 +73,9 @@ namespace IceCreamMathGame.Controllers
                 //TODO: Update Return Action to go to the Student Controller
                 var instructor = _context.Instructors.ToList().SingleOrDefault(m => m.UserName == i.UserName && m.Password == i.Password);
                 TempData["PassID"] = instructor.ID;
-                
+                Debug.WriteLine(TempData["PassID"]);
                 return RedirectToAction("InstructorIndex");
+                
             }
             else
             {
