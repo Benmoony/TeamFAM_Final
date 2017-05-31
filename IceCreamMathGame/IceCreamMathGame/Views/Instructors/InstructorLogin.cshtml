@@ -33,6 +33,10 @@
 	.test {
 		text-align: center;
 	}
+    .text-success{
+        color: forestgreen;
+        font-size: 25px;
+    }
 
 	@@media only screen and (max-width: 349px) {
 		.button {
@@ -48,6 +52,12 @@
 <form asp-action="InstructorLogin">
     <div class="form-horizontal">
         <hr />
+        @if (ViewBag.success != null)
+        {
+            <div class="form-group">
+                <div class="col-md-12 text-center text-success">@ViewBag.success</div>
+            </div>}
+        
 		<div class="well">
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 			@if (ViewBag.error != null)

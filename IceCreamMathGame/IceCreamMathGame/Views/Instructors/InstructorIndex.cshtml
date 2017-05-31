@@ -1,0 +1,76 @@
+﻿
+@{
+	ViewData["Title"] = "InstructorIndex";
+}
+
+<style>
+	.button {
+		width: 200px;		
+	}
+
+    .space{
+        margin-bottom: 15px;
+    }
+    .space h3{
+        font-size: 20px;
+    }
+    .text-danger{
+        font-size: 25px;
+        color: red;
+    }
+    .text-success {
+        font-size: 25px;
+        color: forestgreen;
+    }
+</style>
+<body>
+	<div class="container">
+		<div class="jumbotron">
+			<h1 class="text-center">Instructor Index</h1>
+		</div>
+        @if (ViewBag.Success != null)
+        {
+            <div class="form-group">
+                <div class="col-md-12 text-center text-success">@ViewBag.Success</div>
+            </div>
+        }
+        @if (ViewBag.Error != null)
+        {
+            <div class="form-group">
+                <div class="col-md-12 text-center text-danger">@ViewBag.Error</div>
+            </div>
+        }
+		<div class="row">
+			<div class="col-md-12 text-center space">
+				<h3>Preferences</h3>
+				<a class="btn btn-default button" asp-action="Preferences">Preferences</a>
+
+			</div>
+			<div class="col-md-12 text-center space">
+				<h3>Create A Student</h3>
+				<a class="btn btn-default button" asp-action="ToStudent">Create Account</a>
+
+			</div>
+			<div class="col-md-12 text-center space">
+				<h3>Play Game</h3>
+				<a class="btn btn-default button" href="#">Play Game</a>
+
+			</div>
+			<div class="col-md-12 text-center space">
+				<h3>Logout</h3>
+				<a class="btn btn-default button" asp-action="Logout">Logout</a>
+
+			</div>
+			<div class="col-md-12 text-center space">
+				<h3>Student List</h3>
+				<a class="btn btn-default button text-center" asp-controller="Students" asp-action="Index">View Students</a>
+
+			</div>
+		</div>
+        <div>
+            <a asp-controller="Instructors" asp-action="Index">View Instructor List</a>
+        </div>
+	</div>
+</body>
+
+
