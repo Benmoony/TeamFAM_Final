@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using IceCreamMathGame.Data;
 using IceCreamMathGame.Models;
 
@@ -12,7 +14,7 @@ namespace IceCreamMathGame.Controllers
 {
     public class StudentsController : Controller
     {
-        private int LoggedInstructor;
+        const string SessionLoggedID = "_ID";
 
         private readonly IceCreamContext _context;
 
@@ -55,7 +57,7 @@ namespace IceCreamMathGame.Controllers
 
         public IActionResult StudentAccess()
         {
-            LoggedInstructor = (int)TempData["PassId"];
+            
             return RedirectToAction("Create");
         }
 
@@ -70,7 +72,8 @@ namespace IceCreamMathGame.Controllers
 
             if (ModelState.IsValid)
             {
-                student.InstructorID = (int)TempData["PassID"];
+                var PassID = HttpContext.Session.GetInt32(SessionLoggedID);
+                student.InstructorID = (int)PassID;
                 _context.Add(student);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
