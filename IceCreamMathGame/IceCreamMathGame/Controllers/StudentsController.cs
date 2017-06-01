@@ -73,19 +73,16 @@ namespace IceCreamMathGame.Controllers
             {
                 if(HttpContext.Session.GetInt32(SessionLoggedID) != null)
                 {
-                    System.Console.WriteLine(HttpContext.Session.GetInt32(SessionLoggedID)); //check if session data is working
+                    
                     var PassID = HttpContext.Session.GetInt32(SessionLoggedID);
                     student.InstructorID = (int)PassID;
                     _context.Add(student);
                     await _context.SaveChangesAsync();
                     return RedirectToAction("Index");
                 }
-                else
-                {
-                    System.Console.WriteLine(HttpContext.Session.GetInt32(SessionLoggedID)); //check if session data is working
-                }
             }
-            return View(student);
+            ViewBag.Error("An Error Occured, Please Re-Log into your account");
+            return RedirectToAction("Logout", "Instructors");
         }
 
         // GET: Students/Edit/5

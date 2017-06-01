@@ -46,7 +46,12 @@
 
 <form asp-action="Create">
     <div class="form-horizontal">
-        
+        @if (ViewBag.error != null)
+        {
+            <div class="form-group">
+                <div class="col-md-12 text-center text-danger">@ViewBag.error</div>
+            </div>
+        }
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 		<div class="well">
@@ -57,7 +62,7 @@
 			</div>
 			<div class="form-group">
 				<div class="col-md-12">
-					<input asp-for="FirstName" placeholder="Enter Name" class="form-control center text-center" />
+					<input asp-for="FirstName" placeholder="Enter First Name" class="form-control center text-center" />
 					<span asp-validation-for="FirstName" class="text-danger span"></span>
 				</div>
 			</div>
