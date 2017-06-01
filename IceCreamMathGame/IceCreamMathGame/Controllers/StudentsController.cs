@@ -50,16 +50,15 @@ namespace IceCreamMathGame.Controllers
         // GET: Students/Create
         public IActionResult Create()
         {
-            
             return View();
         }
         
 
-        public IActionResult StudentAccess()
+        /*public IActionResult StudentAccess()
         {
-            
+            //possible bugged statement, causing loss of session data
             return RedirectToAction("Create");
-        }
+        }*/
 
         // POST: Students/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -72,11 +71,19 @@ namespace IceCreamMathGame.Controllers
 
             if (ModelState.IsValid)
             {
-                var PassID = HttpContext.Session.GetInt32(SessionLoggedID);
-                student.InstructorID = (int)PassID;
-                _context.Add(student);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                if(HttpContext.Session.GetInt32(SessionLoggedID) != null)
+                {
+                    System.Console.WriteLine(HttpContext.Session.GetInt32(SessionLoggedID)); //check if session data is working
+                    var PassID = HttpContext.Session.GetInt32(SessionLoggedID);
+                    student.InstructorID = (int)PassID;
+                    _context.Add(student);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    System.Console.WriteLine(HttpContext.Session.GetInt32(SessionLoggedID)); //check if session data is working
+                }
             }
             return View(student);
         }
