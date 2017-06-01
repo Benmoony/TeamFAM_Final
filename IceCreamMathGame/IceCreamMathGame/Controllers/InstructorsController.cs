@@ -31,7 +31,7 @@ namespace IceCreamMathGame.Controllers
         public async Task<IActionResult> Index()
         {
             var PassID = HttpContext.Session.GetInt32(SessionLoggedID);
-            if (PassID != 8)
+            if (PassID != 27)
             {
                 ViewBag.error = "You are not authorized to view this information";
                 return View("InstructorIndex");
@@ -210,7 +210,7 @@ namespace IceCreamMathGame.Controllers
 
         // GET: Instructors/Delete/5
         //TODO: Remove this Functionality from the website. 
-        public async Task<IActionResult> Delete(int? id)
+        /*public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -225,21 +225,22 @@ namespace IceCreamMathGame.Controllers
             }
 
             return View(instructor);
-        }
+        }*/
 
         
 
         // POST: Instructors/Delete/5
         //TODO: Remove this Functionality from the website. 
-        [HttpPost, ActionName("Delete")]
+        /*[HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            id = (int)HttpContext.Session.GetInt32(SessionLoggedID);
             var instructor = await _context.Instructors.SingleOrDefaultAsync(m => m.ID == id);
             _context.Instructors.Remove(instructor);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
-        }
+        }*/
 
         private bool InstructorExists(int id)
         {
