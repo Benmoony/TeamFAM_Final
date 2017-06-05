@@ -31,7 +31,7 @@ namespace IceCreamMathGame.Controllers
         public async Task<IActionResult> Index()
         {
             var PassID = HttpContext.Session.GetInt32(SessionLoggedID);
-            if (PassID != 8)
+            if (PassID != 27)
             {
                 ViewBag.error = "You are not authorized to view this information";
                 return View("InstructorIndex");
@@ -88,16 +88,24 @@ namespace IceCreamMathGame.Controllers
         //Method to redirect the instructor controller to the student
         public IActionResult ToStudent()
         {
-            var PassID = HttpContext.Session.GetInt32(SessionLoggedID);
-            if (PassID == 0)
+            if(HttpContext.Session.GetInt32(SessionLoggedID) != null)
+            {
+                if(HttpContext.Session.GetInt32(SessionLoggedID) != 0)
+                {
+                    var PassID = HttpContext.Session.GetInt32(SessionLoggedID);
+                    return RedirectToAction("Create", "Students");
+                }
+                else
+                {
+                    ViewBag.error("Please Log In");
+                    return View("InstructorLogin");
+                }
+            }
+            else
             {
                 ViewBag.error("Please Log In");
-                return View();
+                return View("InstructorLogin");
             }
-            else {
-                return RedirectToAction("StudentAccess", "Students");
-            }
-            
         }
 
         // GET: Instructors/Create
@@ -138,11 +146,11 @@ namespace IceCreamMathGame.Controllers
             }
             else if (ModelState.IsValid)
             {
-                ViewBag.success = instructor.FirstName + " Your Account Has Been Succesfully Created! Go Back To Login";
+                ViewBag.success = instructor.FirstName + " Your Account Has Been Succesfully Created!";
                 _context.Add(instructor);
                 await _context.SaveChangesAsync();
                 ModelState.Clear();
-                return View("InstructorRegister");
+                return View("InstructorLogin");
             }
             return View(instructor);
         }
@@ -202,7 +210,7 @@ namespace IceCreamMathGame.Controllers
 
         // GET: Instructors/Delete/5
         //TODO: Remove this Functionality from the website. 
-        public async Task<IActionResult> Delete(int? id)
+        /*public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -217,21 +225,22 @@ namespace IceCreamMathGame.Controllers
             }
 
             return View(instructor);
-        }
+        }*/
 
         
 
         // POST: Instructors/Delete/5
         //TODO: Remove this Functionality from the website. 
-        [HttpPost, ActionName("Delete")]
+        /*[HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            id = (int)HttpContext.Session.GetInt32(SessionLoggedID);
             var instructor = await _context.Instructors.SingleOrDefaultAsync(m => m.ID == id);
             _context.Instructors.Remove(instructor);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
-        }
+        }*/
 
         private bool InstructorExists(int id)
         {
@@ -241,16 +250,31 @@ namespace IceCreamMathGame.Controllers
         [HttpGet, ActionName("InstructorIndex")]
         public ActionResult InstructorIndex()
         {
-            var PassID = (int)HttpContext.Session.GetInt32(SessionLoggedID);
-            var instructor = _context.Instructors.ToList().SingleOrDefault(m => m.ID == PassID);
-
-            ViewBag.success = "Welcome " + instructor.FirstName + " " + instructor.LastName + "!";
-            return View();
+            if(HttpContext.Session.GetInt32(SessionLoggedID) != null)
+            { 
+                if(HttpContext.Session.GetInt32(SessionLoggedID) != 0)
+                {
+                    var PassID = (int)HttpContext.Session.GetInt32(SessionLoggedID);
+                    var instructor = _context.Instructors.ToList().SingleOrDefault(m => m.ID == PassID);
+                    ViewBag.success = "Welcome " + instructor.FirstName + " " + instructor.LastName + "!";
+                    return View();
+                }
+                else
+                {
+                    ViewBag.error = "Please Login to your Account";
+                    return View("InstructorLogin");
+                }
+            }
+            else
+            {
+                ViewBag.error = "Please Login to your Account";
+                return View("InstructorLogin");
+            }
         }
 
         public ActionResult Logout()
         {
-            TempData["PassID"] = 0;
+            HttpContext.Session.SetInt32(SessionLoggedID, 0);
             ViewBag.success = "You have been logged off";
             return View("InstructorLogin");
         }
