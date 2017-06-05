@@ -120,15 +120,58 @@ namespace IceCreamMathGame.Controllers
         [HttpGet]
         public IActionResult Preferences()
         {
-
-
             var PassID = HttpContext.Session.GetInt32(SessionLoggedID);
-            if (PassID == 0)
+            if(HttpContext.Session.GetInt32(SessionLoggedID) != null) { 
+                if ((int)PassID == 0)
+                {
+                    ViewBag.error = "Please Login to your Account";
+                    return View("InstructorLogin");
+                }
+                var instructor = _context.Instructors.SingleOrDefault(m => m.ID == (int)PassID);
+                return View(instructor);
+            }
+            else
             {
                 ViewBag.error = "Please Login to your Account";
-                return View();
+                return View("InstructorLogin");
             }
-            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Preferences([Bind("FirstName,LastName,UserName,Password,Email")] InstructorM instructor)
+        {
+            /*var PassID = (int)HttpContext.Session.GetInt32(SessionLoggedID);
+            if (PassID != instructor.ID)
+            {
+                return NotFound();
+            }*/
+            var PassID = HttpContext.Session.GetInt32(SessionLoggedID);
+            instructor.ID = (int)PassID;
+            
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(instructor);
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!InstructorExists(instructor.ID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                ViewBag.Success = "Preferences Updated";
+                return View("InstructorIndex");
+            }
+            ViewBag.Error = "Model State Invalid";
+            return View("InstructorIndex");
         }
 
         // POST: Instructors/Create

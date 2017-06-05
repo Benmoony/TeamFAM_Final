@@ -60,46 +60,60 @@
 	<h2 class="text-center">Preferences</h2>
 </div>
 
-<div class="container">
-	<div class="row" >
+<form asp-action="Preferences" method="post">
+    <div class="container">
+        <div class="row">
 
-		<div class="col-md-12 text-center update">
-			<h3 class="page-header">Update Your Info</h3>
-		</div>
-		<div class="form-group">
-			<div class="col-md-12">
-				<input asp-for="UserName" placeholder="Enter User Name" class="form-control center text-center" />
-				<span asp-validation-for="UserName" class="text-danger span"></span>
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="col-md-12">
-				<input asp-for="Password" placeholder="Enter Password" class="form-control center text-center" />
-				<span asp-validation-for="UserName" class="text-danger span"></span>
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="col-md-12">
-				<input asp-for="Password" placeholder="Re-Enter Password" class="form-control center text-center" />
-				<span asp-validation-for="UserName" class="text-danger span"></span>
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="col-md-12">
-				<input asp-for="Email" placeholder="Enter Email" class="form-control center text-center" />
-				<span asp-validation-for="UserName" class="text-danger span"></span>
-			</div>
-		</div>
-		<div class="form-group text-center">
-			<div class="col-md-12">
-				<a class="btn btn-default button3" asp-action="#">Cancel</a>
-				<a class="btn btn-default button3" asp-action="#">Update Account</a>
-			</div>
-		</div>
+            <div class="col-md-12 text-center update">
+                <h3 class="page-header">Update Your Info</h3>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <input asp-for="FirstName" placeholder="Enter First Name" class="form-control center text-center" />
+                    <span asp-validation-for="FirstName" class="text-danger span"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <input asp-for="LastName" placeholder="Enter Last Name" class="form-control center text-center" />
+                    <span asp-validation-for="LastName" class="text-danger span"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <input asp-for="UserName" placeholder="Enter User Name" class="form-control center text-center" />
+                    <span asp-validation-for="UserName" class="text-danger span"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <input asp-for="Password" placeholder="Enter Password" class="form-control center text-center" />
+                    <span asp-validation-for="Password" class="text-danger span"></span>
+                </div>
+            </div>
+            <!--<div class="form-group">
+                <div class="col-md-12">
+                    <input asp-for="Password" placeholder="Re-Enter Password" class="form-control center text-center" />
+                    <span asp-validation-for="Password" class="text-danger span"></span>
+                </div>
+            </div>-->
+            <div class="form-group">
+                <div class="col-md-12">
+                    <input asp-for="Email" placeholder="Enter Email" class="form-control center text-center" />
+                    <span asp-validation-for="Email" class="text-danger span"></span>
+                </div>
+            </div>
+            <div class="form-group text-center">
+                <div class="col-md-12">
+                    <a class="btn btn-default button3" asp-action="InstructorIndex">Cancel</a>
+                    <input type="submit" value="Update" class="btn btn-default button3"/>
+                </div>
+            </div>
 
-	</div>
+        </div>
 
-</div>
+    </div>
+</form>
 
 
 
