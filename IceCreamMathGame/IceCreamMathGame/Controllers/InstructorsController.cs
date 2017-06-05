@@ -121,6 +121,7 @@ namespace IceCreamMathGame.Controllers
         public IActionResult Preferences()
         {
 
+
             var PassID = HttpContext.Session.GetInt32(SessionLoggedID);
             if (PassID == 0)
             {
